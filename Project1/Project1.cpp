@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "Project1.h"
 #include "resource.h"
+#include "CBlock.h"
 
 #define ROW     25
 #define COL     12
