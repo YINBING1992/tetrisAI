@@ -6,8 +6,6 @@
 
 typedef unsigned char(*BLOCKDATE)[BLOCK_COL];
 
-
-
 class CBlock
 {
 public:
@@ -26,9 +24,9 @@ public:
 	void SetShape(size_t nShape);
 	//获取类型
 	size_t GetType(size_t nType);
-	//设置shape
-	size_t GetShape(size_t nShape);
 	//获取shape
+	size_t GetShape(size_t nShape);
+	
 
 	const BLOCKDATE GetCurrentBlock()const; //当前图形
 	const BLOCKDATE GetNextBlock()const;	//下一个图形
