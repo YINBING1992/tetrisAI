@@ -28,7 +28,6 @@ public:
 	//当前得分
 	size_t GetScore();
 
-
 private:
 	unsigned char m_uchBackGround[ROW][COL] = {};
 	size_t m_uScore=0;
