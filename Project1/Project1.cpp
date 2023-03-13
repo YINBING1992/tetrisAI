@@ -6,10 +6,7 @@
 #include "resource.h"
 #include "CBlock.h"
 
-#define ROW     25
-#define COL     12
-#define WIDTH	20
-#define HEIGHT	20
+
 
 #define MAX_LOADSTRING 100
 

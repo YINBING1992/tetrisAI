@@ -3,7 +3,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-static char g_uchBlocks[][4] = {
+static unsigned char g_uchBlocks[][4] = {
 	/*
 		¡ö¡ö  ¡ö¡ö¡ö¡ö  ¡ö   ¡ö¡ö¡ö   ¡ö¡ö
 		¡ö¡ö       ¡ö¡ö¡ö    ¡ö     ¡ö¡ö

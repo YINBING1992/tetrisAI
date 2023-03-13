@@ -30,12 +30,18 @@
     <ClInclude Include="CBlock.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CBackGround.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Project1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CBlock.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackGround.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
