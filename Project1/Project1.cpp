@@ -5,12 +5,20 @@
 #include "Project1.h"
 #include "resource.h"
 #include "CBlock.h"
+#include "CTetris.h"
 
+
+#define BLOCK_DOWN_TIMER 1
+#define BLOCK_AI_TIMER	2
+#define BLOCK_DOWN_SPEED 500
 
 
 #define MAX_LOADSTRING 100
 
 // 全局变量:
+
+
+CTetris* pTetris = nullptr;
 HINSTANCE hInst;                                // 当前实例
 WCHAR szTitle[MAX_LOADSTRING];                  // 标题栏文本
 WCHAR szWindowClass[MAX_LOADSTRING];            // 主窗口类名
@@ -105,7 +113,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	hInst = hInstance; // 将实例句柄存储在全局变量中
 
 	HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-		600, 300, COL * WIDTH, ROW * HEIGHT, nullptr, nullptr, hInstance, nullptr);
+		600, 300, (COL + 11) * WIDTH, (ROW + 2) * HEIGHT, nullptr, nullptr, hInstance, nullptr);
 
 	if (!hWnd)
 	{
@@ -132,6 +140,57 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
+	case WM_TIMER:
+	{
+		switch (wParam)
+		{
+		case BLOCK_DOWN_TIMER:
+		{
+			if (pTetris)
+			{
+				if (pTetris->BlockDown() == -1)
+				{
+					PostQuitMessage(0);
+				}
+			}
+			InvalidateRect(hWnd, NULL, TRUE);
+			return 0;
+		}
+		break;
+		case BLOCK_AI_TIMER:
+		{
+
+			if (pTetris)
+			{
+				int nShape = 0;
+				int nMove = 0;
+				pTetris->BlockRoateAndMove(&nShape, &nMove);
+				if (nShape)
+				{
+					//发送旋转信号
+					PostMessage(hWnd, WM_KEYDOWN, VK_UP, 0);
+				}
+				else
+				{
+					if (nMove < 0)
+					{
+						//发送向左信号
+						PostMessage(hWnd, WM_KEYDOWN, VK_LEFT, 0);
+					}
+					else if (nMove > 0)
+					{
+						//发送向右信号
+						PostMessage(hWnd, WM_KEYDOWN, VK_RIGHT, 0);
+					}
+				}
+
+			}
+			return 0;
+		}
+		break;
+		}
+	}
+	break;
 	case WM_KEYDOWN:
 	{
 		int wmId = LOWORD(wParam);
@@ -139,22 +198,44 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 		case VK_UP:
 		{
-			MessageBox(0, "VK_UP", "WM_KEYDOWN", MB_OK);
+
+			if (pTetris)
+			{
+				pTetris->BlockRotate();
+			}
+			InvalidateRect(hWnd, NULL, TRUE);
 		}
 		break;
 		case VK_DOWN:
 		{
-			MessageBox(0, "VK_DOWN", "WM_KEYDOWN", MB_OK);
+
+			if (pTetris)
+			{
+				if (pTetris->BlockDown() == -1)
+				{
+					PostQuitMessage(0);
+				}
+			}
+			InvalidateRect(hWnd, NULL, TRUE);
 		}
 		break;
 		case VK_LEFT:
 		{
-			MessageBox(0, "VK_LEFT", "WM_KEYDOWN", MB_OK);
+			if (pTetris)
+			{
+				pTetris->BlockLeft();
+			}
+			InvalidateRect(hWnd, NULL, TRUE);
 		}
 		break;
 		case VK_RIGHT:
 		{
-			MessageBox(0, "VK_RIGHT", "WM_KEYDOWN", MB_OK);
+
+			if (pTetris)
+			{
+				pTetris->BlockRight();
+			}
+			InvalidateRect(hWnd, NULL, TRUE);
 		}
 		break;
 		default:
@@ -176,7 +257,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case MENU_START:
 		{
-			MessageBox(0, "MENU_START", "Menu", MB_OK);
+			if (pTetris)
+			{
+				delete pTetris;
+				pTetris = nullptr;
+			}
+			pTetris = new CTetris();
+			if (pTetris)
+			{
+				pTetris->InitGame();
+				SetTimer(hWnd, BLOCK_DOWN_TIMER, BLOCK_DOWN_SPEED, NULL);
+
+			}
+			InvalidateRect(hWnd, NULL, TRUE);
 		}
 		break;
 		case MENU_PAUSE:
@@ -192,7 +285,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 		case MENU_AI:
 		{
-			MessageBox(0, "MENU_AI", "Menu", MB_OK);
+
+			KillTimer(hWnd, BLOCK_DOWN_TIMER);
+			SetTimer(hWnd, BLOCK_DOWN_TIMER, BLOCK_DOWN_SPEED/5, NULL);
+			SetTimer(hWnd, BLOCK_AI_TIMER, BLOCK_DOWN_SPEED/5, NULL);
 		}
 		break;
 		default:
@@ -205,13 +301,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
 		// TODO: 在此处添加使用 hdc 的任何绘图代码...
-
+		if (pTetris)
+		{
+			pTetris->ShowGame(hdc);
+		}
 		EndPaint(hWnd, &ps);
 	}
 	break;
 	case WM_DESTROY:
+	{
+		KillTimer(hWnd, BLOCK_DOWN_TIMER);
+		KillTimer(hWnd, BLOCK_AI_TIMER);
 		PostQuitMessage(0);
-		break;
+
+	}
+	break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}

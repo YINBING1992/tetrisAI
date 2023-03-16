@@ -33,6 +33,12 @@
     <ClInclude Include="CBackGround.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CTetris.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CTetrisAI.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Project1.cpp">
@@ -42,6 +48,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CBackGround.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CTetris.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CTetrisAI.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

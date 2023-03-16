@@ -141,6 +141,8 @@
   <ItemGroup>
     <ClInclude Include="CBackGround.h" />
     <ClInclude Include="CBlock.h" />
+    <ClInclude Include="CTetris.h" />
+    <ClInclude Include="CTetrisAI.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Project1.h" />
     <ClInclude Include="Resource.h" />
@@ -149,6 +151,8 @@
   <ItemGroup>
     <ClCompile Include="CBackGround.cpp" />
     <ClCompile Include="CBlock.cpp" />
+    <ClCompile Include="CTetris.cpp" />
+    <ClCompile Include="CTetrisAI.cpp" />
     <ClCompile Include="Project1.cpp" />
   </ItemGroup>
   <ItemGroup>

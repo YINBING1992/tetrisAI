@@ -199,33 +199,35 @@ void CBlock::RandCreateBlock()
 	//随机产生一个
 	m_nNextType = rand() % (sizeof(g_uchBlocks) / (BLOCK_COL * BLOCK_ROW * BLOCK_SHAPE_COUNT));
 	m_nNextShape = rand() % BLOCK_SHAPE_COUNT;
-	memcpy(m_aryNextBlock, g_uchBlocks + m_nNextType * (BLOCK_COL * BLOCK_ROW * BLOCK_SHAPE_COUNT) + m_nNextShape * (BLOCK_COL * BLOCK_ROW), sizeof(m_aryNextBlock));
+
+
+	memcpy(m_aryNextBlock, (unsigned char*)g_uchBlocks + m_nNextType * (BLOCK_COL * BLOCK_ROW * BLOCK_SHAPE_COUNT) + m_nNextShape * (BLOCK_COL * BLOCK_ROW), sizeof(m_aryNextBlock));
 }
 
 void CBlock::RotateBlock()
 {
 	m_nCurrentShape = (m_nCurrentShape + 1) % 4;
-	memcpy(m_aryBlock, g_uchBlocks + m_nCurrentType * (BLOCK_COL * BLOCK_ROW * BLOCK_SHAPE_COUNT) + m_nCurrentShape * (BLOCK_COL * BLOCK_ROW), sizeof(m_aryBlock));
+	memcpy(m_aryBlock, (unsigned char*)g_uchBlocks + m_nCurrentType * (BLOCK_COL * BLOCK_ROW * BLOCK_SHAPE_COUNT) + m_nCurrentShape * (BLOCK_COL * BLOCK_ROW), sizeof(m_aryBlock));
 }
 
 void CBlock::SetType(size_t nType)
 {
 	m_nCurrentType = nType;
-	memcpy(m_aryBlock, g_uchBlocks + m_nCurrentType * (BLOCK_COL * BLOCK_ROW * BLOCK_SHAPE_COUNT) + m_nCurrentShape * (BLOCK_COL * BLOCK_ROW), sizeof(m_aryBlock));
+	memcpy(m_aryBlock, (unsigned char*)g_uchBlocks + m_nCurrentType * (BLOCK_COL * BLOCK_ROW * BLOCK_SHAPE_COUNT) + m_nCurrentShape * (BLOCK_COL * BLOCK_ROW), sizeof(m_aryBlock));
 }
 
 void CBlock::SetShape(size_t nShape)
 {
 	m_nCurrentShape = nShape;
-	memcpy(m_aryBlock, g_uchBlocks + m_nCurrentType * (BLOCK_COL * BLOCK_ROW * BLOCK_SHAPE_COUNT) + m_nCurrentShape * (BLOCK_COL * BLOCK_ROW), sizeof(m_aryBlock));
+	memcpy(m_aryBlock, (unsigned char*)g_uchBlocks + m_nCurrentType * (BLOCK_COL * BLOCK_ROW * BLOCK_SHAPE_COUNT) + m_nCurrentShape * (BLOCK_COL * BLOCK_ROW), sizeof(m_aryBlock));
 }
 
-size_t CBlock::GetType(size_t nType)
+size_t CBlock::GetType()
 {
 	return m_nCurrentType;
 }
 
-size_t CBlock::GetShape(size_t nShape)
+size_t CBlock::GetShape()
 {
 	return m_nCurrentShape;
 }

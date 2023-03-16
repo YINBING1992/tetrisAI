@@ -16,7 +16,6 @@
 #define BLOCK_FIXED		3
 
 
-
 typedef unsigned char(*BLOCKDATE)[BLOCK_COL];
 
 class CBlock
@@ -36,9 +35,9 @@ public:
 	//设置shape
 	void SetShape(size_t nShape);
 	//获取类型
-	size_t GetType(size_t nType);
+	size_t GetType();
 	//获取shape
-	size_t GetShape(size_t nShape);
+	size_t GetShape();
 	
 
 	const BLOCKDATE GetCurrentBlock()const; //当前图形
